@@ -3,7 +3,7 @@ package pl.michals3r3k.driverproject.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.michals3r3k.driverproject.entity.Advice;
-import pl.michals3r3k.driverproject.entity.TrainingQuestion;
+import pl.michals3r3k.driverproject.entity.Question;
 import pl.michals3r3k.driverproject.service.AdviceService;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class AdviceController {
     }
 
     @PutMapping("/{id}")
-    public void addQuestionToAdvice(@PathVariable Long id, @RequestBody TrainingQuestion question){
+    public void addQuestionToAdvice(@PathVariable Long id, @RequestBody Question question){
         Advice advice = adviceService.findById(id);
         adviceService.addQuestionToAdvice(advice, question);
     }
