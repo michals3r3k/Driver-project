@@ -3,6 +3,7 @@ package pl.michals3r3k.driverproject.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.michals3r3k.driverproject.entity.Advice;
+import pl.michals3r3k.driverproject.entity.Answer;
 import pl.michals3r3k.driverproject.entity.Question;
 import pl.michals3r3k.driverproject.service.AdviceService;
 
@@ -45,6 +46,12 @@ public class AdviceController {
     @GetMapping("/{adviceId}/question/{questionId}")
     public Question findAllByAdvice(@PathVariable Long adviceId, @PathVariable Long questionId){
         return adviceService.findQuestionByIdAndAdvice(adviceId, questionId);
+    }
+
+    @PutMapping("/{adviceId}/question/{questionId}")
+    public void addAnswerToQuestion(@PathVariable Long adviceId, @PathVariable Long questionId, @RequestBody Answer answer){
+        Question question = adviceService.findQuestionByIdAndAdvice(adviceId, questionId);
+        adviceService.addAnswerToQuestion(question, answer);
     }
 
 
