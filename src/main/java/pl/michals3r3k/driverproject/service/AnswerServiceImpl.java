@@ -16,4 +16,9 @@ public class AnswerServiceImpl implements AnswerService{
     public List<Answer> findAll() {
         return answerRepository.findAll();
     }
+
+    @Override
+    public void save(Answer answer) {
+        answerRepository.save(answer);
+    }
 }
