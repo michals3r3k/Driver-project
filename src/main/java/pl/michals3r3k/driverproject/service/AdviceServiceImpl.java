@@ -23,7 +23,21 @@ public class AdviceServiceImpl implements AdviceService {
     }
 
     @Override
-    public void save(Advice advice) {
+    public Question findQuestionByIdAndAdvice(Long adviceId, Long questionId) {
+        Advice advice = findById(adviceId);
+        for(Question q: advice.getQuestions()){
+            if(q.getId().equals(questionId)){
+                return q;
+            }
+        }
+
+        throw new IllegalStateException("Question not found");
+    }
+
+    @Override
+    public void add(Advice advice) {
+        advice.setDateOfPublic(LocalDate.now());
+        advice.setTimeOfPublic(LocalTime.now());
         adviceRepository.save(advice);
     }
 
@@ -40,6 +54,6 @@ public class AdviceServiceImpl implements AdviceService {
         question.setTimeOfPublic(LocalTime.now());
         questions.add(question);
         questionService.save(question);
-        save(advice);
+        add(advice);
     }
 }

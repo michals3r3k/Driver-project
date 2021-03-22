@@ -26,13 +26,25 @@ public class AdviceController {
 
     @PostMapping("/add")
     public void addAdvicePost(@RequestBody Advice advice){
-        adviceService.save(advice);
+        adviceService.add(advice);
     }
 
     @PutMapping("/{id}")
     public void addQuestionToAdvice(@PathVariable Long id, @RequestBody Question question){
         Advice advice = adviceService.findById(id);
         adviceService.addQuestionToAdvice(advice, question);
+    }
+
+    //Question Operations
+
+    @GetMapping("/{adviceId}/questions")
+    public List<Question> findAllByAdvice(@PathVariable Long adviceId){
+        return adviceService.findById(adviceId).getQuestions();
+    }
+
+    @GetMapping("/{adviceId}/question/{questionId}")
+    public Question findAllByAdvice(@PathVariable Long adviceId, @PathVariable Long questionId){
+        return adviceService.findQuestionByIdAndAdvice(adviceId, questionId);
     }
 
 

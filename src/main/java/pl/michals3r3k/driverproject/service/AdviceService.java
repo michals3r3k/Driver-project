@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface AdviceService {
     List<Advice> findAll();
-    void save(Advice advice);
+    void add(Advice advice);
     Advice findById(Long id);
     void addQuestionToAdvice(Advice advice, Question question);
+    Question findQuestionByIdAndAdvice(Long adviceId, Long questionId);
 }
