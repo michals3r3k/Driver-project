@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/rest/advice")
+@RequestMapping("/api/advice")
 public class AdviceController {
     private final AdviceService adviceService;
 
@@ -30,7 +30,7 @@ public class AdviceController {
         adviceService.add(advice);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public void addQuestionToAdvice(@PathVariable Long id, @RequestBody Question question){
         Advice advice = adviceService.findById(id);
         adviceService.addQuestionToAdvice(advice, question);
@@ -48,7 +48,7 @@ public class AdviceController {
         return adviceService.findQuestionByIdAndAdvice(adviceId, questionId);
     }
 
-    @PutMapping("/{adviceId}/question/{questionId}")
+    @PostMapping("/{adviceId}/question/{questionId}")
     public void addAnswerToQuestion(@PathVariable Long adviceId, @PathVariable Long questionId, @RequestBody Answer answer){
         Question question = adviceService.findQuestionByIdAndAdvice(adviceId, questionId);
         adviceService.addAnswerToQuestion(question, answer);
