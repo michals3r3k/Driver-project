@@ -3,6 +3,7 @@ package pl.michals3r3k.driverproject.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.michals3r3k.driverproject.entity.Advice;
+import pl.michals3r3k.driverproject.entity.Answer;
 import pl.michals3r3k.driverproject.entity.Question;
 import pl.michals3r3k.driverproject.repository.AdviceRepository;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class AdviceServiceImpl implements AdviceService {
     private final AdviceRepository adviceRepository;
     private final QuestionService questionService;
+    private final AnswerService answerService;
 
     @Override
     public List<Advice> findAll() {
@@ -55,5 +57,15 @@ public class AdviceServiceImpl implements AdviceService {
         questions.add(question);
         questionService.save(question);
         add(advice);
+    }
+
+    @Override
+    @Transactional
+    public void addAnswerToQuestion(Question question, Answer answer) {
+        List<Answer> questionAnswers = question.getQuestionAnswers();
+        questionAnswers.add(answer);
+        question.setQuestionAnswers(questionAnswers);
+        answerService.save(answer);
+        questionService.save(question);
     }
 }
