@@ -19,6 +19,11 @@ public class AdviceController {
         return adviceService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public Advice adviceGet(@PathVariable Long id){
+        return adviceService.findById(id);
+    }
+
     @PostMapping("/add")
     public void addAdvicePost(@RequestBody Advice advice){
         adviceService.save(advice);
