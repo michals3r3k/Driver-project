@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Data
 @Entity
-public class QuestionAnswer {
+public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
