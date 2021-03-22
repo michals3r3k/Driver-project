@@ -16,4 +16,9 @@ public class TrainingQuestionServiceImpl implements TrainingQuestionService {
     public List<TrainingQuestion> findAll() {
         return trainingQuestionRepository.findAll();
     }
+
+    @Override
+    public void save(TrainingQuestion question) {
+        trainingQuestionRepository.save(question);
+    }
 }

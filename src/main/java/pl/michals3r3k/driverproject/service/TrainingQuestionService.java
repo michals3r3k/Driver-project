@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TrainingQuestionService {
     List<TrainingQuestion> findAll();
+
+    void save(TrainingQuestion question);
 }
