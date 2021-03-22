@@ -23,5 +23,5 @@ public class Advice {
     private LocalDate dateOfPublic;
     private LocalTime timeOfPublic;
     @OneToMany
-    private List<TrainingQuestion> questions;
+    private List<Question> questions;
 }

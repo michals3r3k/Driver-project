@@ -3,9 +3,8 @@ package pl.michals3r3k.driverproject.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.michals3r3k.driverproject.entity.Advice;
-import pl.michals3r3k.driverproject.entity.TrainingQuestion;
+import pl.michals3r3k.driverproject.entity.Question;
 import pl.michals3r3k.driverproject.repository.AdviceRepository;
-import pl.michals3r3k.driverproject.repository.TrainingQuestionRepository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -16,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AdviceServiceImpl implements AdviceService {
     private final AdviceRepository adviceRepository;
-    private final TrainingQuestionService questionService;
+    private final QuestionService questionService;
 
     @Override
     public List<Advice> findAll() {
@@ -24,7 +23,21 @@ public class AdviceServiceImpl implements AdviceService {
     }
 
     @Override
-    public void save(Advice advice) {
+    public Question findQuestionByIdAndAdvice(Long adviceId, Long questionId) {
+        Advice advice = findById(adviceId);
+        for(Question q: advice.getQuestions()){
+            if(q.getId().equals(questionId)){
+                return q;
+            }
+        }
+
+        throw new IllegalStateException("Question not found");
+    }
+
+    @Override
+    public void add(Advice advice) {
+        advice.setDateOfPublic(LocalDate.now());
+        advice.setTimeOfPublic(LocalTime.now());
         adviceRepository.save(advice);
     }
 
@@ -35,12 +48,12 @@ public class AdviceServiceImpl implements AdviceService {
 
     @Override
     @Transactional
-    public void addQuestionToAdvice(Advice advice, TrainingQuestion question) {
-        List<TrainingQuestion> questions = advice.getQuestions();
+    public void addQuestionToAdvice(Advice advice, Question question) {
+        List<Question> questions = advice.getQuestions();
         question.setDateOfPublic(LocalDate.now());
         question.setTimeOfPublic(LocalTime.now());
         questions.add(question);
         questionService.save(question);
-        save(advice);
+        add(advice);
     }
 }
