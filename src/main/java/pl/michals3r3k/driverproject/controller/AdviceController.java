@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/advice")
+@RequestMapping("/api/advice")
 public class AdviceController {
     private final AdviceService adviceService;
 
