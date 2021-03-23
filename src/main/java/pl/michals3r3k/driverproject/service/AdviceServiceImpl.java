@@ -1,7 +1,9 @@
 package pl.michals3r3k.driverproject.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import pl.michals3r3k.driverproject.dto.AdviceResponse;
 import pl.michals3r3k.driverproject.entity.Advice;
 import pl.michals3r3k.driverproject.entity.Answer;
 import pl.michals3r3k.driverproject.entity.Question;
@@ -11,6 +13,8 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -67,5 +71,39 @@ public class AdviceServiceImpl implements AdviceService {
         question.setQuestionAnswers(questionAnswers);
         answerService.save(answer);
         questionService.save(question);
+    }
+
+    @Override
+    public Advice findNewest() {
+        return adviceRepository.findAll(Sort.by(Sort.Direction.DESC, "dateOfPublic", "timeOfPublic")).get(0);
+    }
+
+    @Override
+    public AdviceResponse adviceToResponse(Advice advice) {
+        return AdviceResponse.builder()
+                .id(advice.getId())
+                .name(advice.getTitle())
+                .description(advice.getDescription())
+                .dateOfPublic(advice.getDateOfPublic())
+                .timeOfPublic(advice.getTimeOfPublic())
+                .build();
+
+    }
+
+    @Override
+    public List<AdviceResponse> mostPopular(int i) {
+        return adviceRepository.
+                findAll(Sort.by(Sort.Direction.DESC, "tasksMade"))
+                .stream()
+                .map(a-> AdviceResponse.builder()
+                        .id(a.getId())
+                        .timeOfPublic(a.getTimeOfPublic())
+                        .dateOfPublic(a.getDateOfPublic())
+                        .name(a.getTitle())
+                        .description(a.getDescription())
+                        .build()
+                        )
+                .limit(i)
+                .collect(Collectors.toList());
     }
 }

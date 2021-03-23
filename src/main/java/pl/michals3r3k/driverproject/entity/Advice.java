@@ -24,4 +24,5 @@ public class Advice {
     private LocalTime timeOfPublic;
     @OneToMany
     private List<Question> questions;
+    private Long tasksMade;
 }
