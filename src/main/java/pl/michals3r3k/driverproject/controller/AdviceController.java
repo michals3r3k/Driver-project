@@ -2,12 +2,15 @@ package pl.michals3r3k.driverproject.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import pl.michals3r3k.driverproject.dto.AdviceResponse;
+import pl.michals3r3k.driverproject.dto.AnswerRequest;
 import pl.michals3r3k.driverproject.entity.Advice;
 import pl.michals3r3k.driverproject.entity.Answer;
 import pl.michals3r3k.driverproject.entity.Question;
 import pl.michals3r3k.driverproject.service.AdviceService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -52,6 +55,26 @@ public class AdviceController {
     public void addAnswerToQuestion(@PathVariable Long adviceId, @PathVariable Long questionId, @RequestBody Answer answer){
         Question question = adviceService.findQuestionByIdAndAdvice(adviceId, questionId);
         adviceService.addAnswerToQuestion(question, answer);
+    }
+
+    //Finding newest advice
+    @GetMapping("/newest")
+    public AdviceResponse newestAdviceGet(){
+        return adviceService.adviceToResponse(adviceService.findNewest());
+    }
+
+    @PostMapping("/question/answer")
+    public boolean answerForQuestion(@RequestBody AnswerRequest answerRequest){
+        Question question = adviceService.findQuestionByIdAndAdvice(answerRequest.getAdviceId(), answerRequest.getQuestionId());
+        Optional<Answer> first = question.getQuestionAnswers().stream().filter(Answer::isCorrect).findFirst();
+        return first
+                .filter(answer -> answer.getId().equals(answerRequest.getAnswerId()))
+                .isPresent();
+    }
+
+    @GetMapping("/most-popular")
+    public List<AdviceResponse> mostPopularGet(@RequestParam int max){
+        return adviceService.mostPopular(max);
     }
 
 

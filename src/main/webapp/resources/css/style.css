@@ -1,0 +1,17 @@
+table.custom-table{
+    border-collapse: collapse;
+}
+
+tr.custom-tr:nth-child(2n){
+    color: white;
+    background-color: #333;
+}
+
+.custom-tr{
+    text-align: center;
+}
+
+.custom-td{
+    border: 2px black solid;
+    padding: 10px 20px;
+}
