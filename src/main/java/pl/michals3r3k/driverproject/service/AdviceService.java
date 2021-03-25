@@ -1,5 +1,6 @@
 package pl.michals3r3k.driverproject.service;
 
+import pl.michals3r3k.driverproject.dto.AdviceResponse;
 import pl.michals3r3k.driverproject.entity.Advice;
 import pl.michals3r3k.driverproject.entity.Answer;
 import pl.michals3r3k.driverproject.entity.Question;
@@ -13,4 +14,7 @@ public interface AdviceService {
     void addQuestionToAdvice(Advice advice, Question question);
     Question findQuestionByIdAndAdvice(Long adviceId, Long questionId);
     void addAnswerToQuestion(Question question, Answer answer);
+    Advice findNewest();
+    AdviceResponse adviceToResponse(Advice newest);
+    List<AdviceResponse> mostPopular(int i);
 }
